@@ -6,4 +6,11 @@
 
 .center-content {
     text-align: center;
+    justify-content: center;
+}
+
+body{
+    color:black;
+    background-color: #FFE4E1;
+    
 }

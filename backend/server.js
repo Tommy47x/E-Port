@@ -1,43 +1,50 @@
-const express = require('express');
-const cors = require('cors');
-const nmap = require('node-nmap');
+const express = require("express");
+const nmap = require("node-nmap");
+const cors = require("cors");
 
-nmap.nmapLocation = 'nmap'; //default
+nmap.nmapLocation = "nmap"; //default
 let app = express();
 
 app.use(cors());
 
-app.get('/scan', (req, res) => {
-    const ipAddress = req.query.ip; // Get the IP address from the query parameters
-    let fullscan = new nmap.OsAndPortScan(ipAddress); // Use the IP address in the scan
-    fullscan.on('complete', function (data) {
-        // Analyze the scan results
-        let isSecure = true;
-        let openPorts = [];
-        data.forEach(host => {
-            // Check for open ports
-            if (host.openPorts && host.openPorts.length > 0) { // If there are open ports
-                // Define the ports to check for
-                const portsToCheck = [21, 23, 445, 3389, 1433]; // FTP, Telnet, SMB, RDP, SQL-Server
-                host.openPorts.forEach(portInfo => {
-                    openPorts.push(portInfo.port);
-                    if (portsToCheck.includes(portInfo.port)) {
-                        console.log(`Vulnerable port found: ${portInfo.port}`);
-                        isSecure = false;
-                    }
-                });
-            }
-            // Check for outdated operating systems
-            if (host.osNmap && host.osNmap.includes('outdated OS')) {
-                console.log('Outdated OS found');
-                isSecure = false;
-            }
+app.get("/scan", (req, res) => {
+  const ipAddress = req.query.ip; // Get the IP address from the query parameters
+  const ipPattern = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+
+  if (!ipPattern.test(ipAddress)) {
+    res.status(400).json({ error: "Invalid IP address" });
+    return;
+  }
+
+  let fullscan = new nmap.OsAndPortScan(ipAddress); // Use the IP address in the scan
+  fullscan.on("complete", function (data) {
+    // Analyze the scan results
+    let isSecure = true;
+    let openPorts = [];
+    data.forEach((host) => {
+      // Check for open ports
+      if (host.openPorts && host.openPorts.length > 0) {
+        // If there are open ports
+        // Define the ports to check for
+        const portsToCheck = [21, 22, 23, 445, 3389]; // FTP, Telnet, SMB, RDP, SQL-Server and more
+        host.openPorts.forEach((portInfo) => {
+          openPorts.push(portInfo.port);
+          if (portsToCheck.includes(portInfo.port)) {
+            isSecure = false;
+          }
         });
-        res.json({ isSecure: isSecure, openPorts: openPorts });
+      }
+      if (host.osNmap && host.osNmap.includes('outdated OS')) {
+        console.log('Outdated OS found');
+        isSecure = false;
+      }
     });
-    fullscan.startScan(); // Start the scan
+    res.json({ isSecure: isSecure, openPorts: openPorts }); // Return the results
+  });
+  fullscan.startScan(); // Start the scan
 });
 
-app.listen(3000, function () {
-    console.log('App listening on port 3000!');
+app.listen(5000, function () {
+  console.log("App listening on port 5000!");
 });
+
