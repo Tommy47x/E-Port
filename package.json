@@ -1,5 +1,5 @@
 {
-  "homepage": "https://tommy47x.github.io/ScanAlert",
+  "homepage": "https://tommy47x.github.io/E-Port",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
@@ -19,7 +19,8 @@
  
    
   "scripts": {
-    "deploy": "npm run build&&gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

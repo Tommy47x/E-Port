@@ -1,6 +1,6 @@
-const express = require("express");
-const nmap = require("node-nmap");
-const cors = require("cors");
+const express = require("express"); // For the Server 
+const nmap = require("node-nmap"); // 
+const cors = require("cors"); // For the Server to be able to communicate with the frontend
 
 nmap.nmapLocation = "nmap"; //default
 let app = express();
@@ -23,8 +23,7 @@ app.get("/scan", (req, res) => {
     let openPorts = [];
     data.forEach((host) => {
       // Check for open ports
-      if (host.openPorts && host.openPorts.length > 0) {
-        // If there are open ports
+      if (host.openPorts && host.openPorts.length > 0) { // If there are open ports
         // Define the ports to check for
         const portsToCheck = [21, 22, 23, 445, 3389]; // FTP, Telnet, SMB, RDP, SQL-Server and more
         host.openPorts.forEach((portInfo) => {
