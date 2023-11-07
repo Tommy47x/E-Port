@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Offcanvas, Navbar, Container, Alert } from 'react-bootstrap';
+import React, { useState } from 'react'; // For Functions
+import { Offcanvas, Navbar, Container, Alert } from 'react-bootstrap'; // Elements from Bootstrap
 
 function Elements() {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [show, setShow] = useState(false); // Set initial state to false 
+    const handleClose = () => setShow(false); // OffCanvas closing
+    const handleShow = () => setShow(true);  // Offcanvas opening
 
     return (
         <Navbar bg="dark" data-bs-theme="dark">

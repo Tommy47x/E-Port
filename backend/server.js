@@ -1,5 +1,5 @@
 const express = require("express"); // For the Server 
-const nmap = require("node-nmap"); // 
+const nmap = require("node-nmap"); // For the scanning process
 const cors = require("cors"); // For the Server to be able to communicate with the frontend
 
 nmap.nmapLocation = "nmap"; //default
@@ -16,7 +16,7 @@ app.get("/scan", (req, res) => {
     return;
   }
 
-  let fullscan = new nmap.OsAndPortScan(ipAddress); // Use the IP address in the scan
+  let fullscan = new nmap.NmapScan(ipAddress); // Use the IP address in the scan
   fullscan.on("complete", function (data) {
     // Analyze the scan results
     let isSecure = true;
@@ -32,10 +32,6 @@ app.get("/scan", (req, res) => {
             isSecure = false;
           }
         });
-      }
-      if (host.osNmap && host.osNmap.includes('outdated OS')) {
-        console.log('Outdated OS found');
-        isSecure = false;
       }
     });
     res.json({ isSecure: isSecure, openPorts: openPorts }); // Return the results

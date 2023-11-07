@@ -1,24 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Modal } from 'react-bootstrap';
-import './App.css';
-import backgroundImage from 'C:/Users/crist/Downloads/e-port.jpg';
-import Elements from './Elements';
-import Logic from './Logic';
-
-//TO-DO: Add more ports and their meanings (OPTIONAL)
-//TO-DO: Re-organize the code with functional components and new files 
+import React, { useState, useEffect } from 'react'; // For Functions
+import 'bootstrap/dist/css/bootstrap.min.css'; // For BootStrap-Styling
+import { Button, Modal } from 'react-bootstrap'; // Elements from Bootstrap
+import './App.css'; // For internal styling
+import backgroundImage from 'C:/Users/crist/Downloads/e-port.jpg'; // For background image
+import Elements from './Elements'; // Offcanvas
+import Logic from './Logic'; // Algorithm, Request and Response
 
 function App() {
     const [showModal, setShowModal] = useState(true); // Set initial state to true
-    const handleCloseModal = () => setShowModal(false);
+    const handleCloseModal = () => setShowModal(false); // 
 
     useEffect(() => {
-        let root = document.getElementById('root');
-        root.style.backgroundImage = `url(${backgroundImage})`;
-        root.style.backgroundPosition = 'center';
-        root.style.backgroundRepeat = 'no-repeat';
-        root.style.backgroundSize = 'cover';
+        let root = document.getElementById('root'); // Get the root element
+        root.style.backgroundImage = `url(${backgroundImage})`; // Set the background image
+        root.style.backgroundPosition = 'center'; // Set the background position
+        root.style.backgroundRepeat = 'no-repeat'; // Set the background to !repeat
+        root.style.backgroundSize = 'cover'; // Set the background size to cover
         root.style.height = '100vh'; // Set the height to 100% of the viewport height
     }, []);
 
@@ -37,9 +34,9 @@ function App() {
                         <ul></ul>
                         With out app, you can scan your network and check if it is secure or not.
                         <ul></ul>
-                        What do we exactly do? We use nMap to scan your network, and check for the open ports or the outdated OS of routers.
+                        What do we exactly do? We use nMap to scan your network, and check for the open ports of your internal / external IP Adress.
                         <ul></ul>
-                        We can't provide exact information about the security of your network, but we can give you a general idea of how secure it is.
+                        We can't provide exact information about the security of your network, but we can give you a general idea of how secure it is, and if you should worry or not about a specific port and it's meanings.
                         <ul></ul>
                         Also, by checking the 'General port info' button, you'll see a list of general ports and their meanings.
                         <ul></ul>

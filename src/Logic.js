@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Button, Alert, Card, Form } from 'react-bootstrap';
+import React, { useState } from 'react'; // For Functions
+import { Button, Alert, Card, Form } from 'react-bootstrap'; // Elements from Bootstrap
 
 function Logic() {
-    const [ipAddress, setIpAddress] = useState('');
-    const ipPattern = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
-    const [scanData, setScanData] = useState(null);
+    const [ipAddress, setIpAddress] = useState(''); // Set initial state to empty string
+    const ipPattern = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/; // Regex pattern for IP address
+    const [scanData, setScanData] = useState(null); // Set initial state to null
 
     const handleScan = () => {
-        if (!ipPattern.test(ipAddress)) {
+        if (!ipPattern.test(ipAddress)) {  // If the IP address is not valid, alert the user
             alert("Please enter a valid IP address.");
         }
         fetch(`http://localhost:5000/scan?ip=${ipAddress}`) // Include the IP address in the request
@@ -15,7 +15,7 @@ function Logic() {
                 if (!response.ok) { // If the response is not OK (e.g. 404), throw an error
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                return response.json();
+                return response.json(); // Format response to JSON
             })
             .then(data => setScanData(data))
             .catch(error => console.log('Error:', error)); // If there is an error, log the error
@@ -25,8 +25,9 @@ function Logic() {
         setIpAddress(event.target.value);
 
     };
-
+    // List of messages for most important ports
     const messages = {
+        31337: 'PORT OF THE ELITES. You are most probably hacked right now.',
         21: 'FTP port is open. This is a security risk that can be exploited by hackers.',
         20: 'FTP port is open. This is a security risk that can be exploited by hackers',
         22: 'SSH port is open. This can be a security risk if not properly configured.',
@@ -58,7 +59,7 @@ function Logic() {
                 <ul></ul>
                 {scanData && (
                     <div>
-                        {scanData.isSecure ?
+                        {scanData.isSecure ? // Alert Variants
                             <Alert variant="success">The network is secure.</Alert> :
                             <Alert variant="danger">The network is not secure.</Alert>
                         }
